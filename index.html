@@ -1,0 +1,256 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<html>
+	<body><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		人數<select id="total" onchange="changeTotal()">
+			<option value=''></option>
+			<option value='5'>5</option>
+			<option value='6'>6</option>
+			<option value='7'>7</option>
+			<option value='8'>8</option>
+
+		</select>
+		勝者<select id="winner">
+			<option value='主公'>主公</option>
+			<option value='反賊'>反賊</option>
+			<option value='內奸'>內奸</option>
+
+		</select>
+		<table  border='1px' id="table">
+			<tr>
+				<td>位置</td>
+				<td>玩家</td>
+				<td>武將</td>
+				<td>身分</td>
+				<td>大將/軍師</td>
+			</tr>
+		</table>
+		<input type="button" name="enter" value="送出" onclick="Send()">
+		<br>
+		<input type="text" style="display:none;" id="playerList">
+		<br>
+		<input type="text" style="display:none;" id="blueList">
+		<br>
+		<input type="text" style="display:none;" id="redList">
+		<br>
+		<input type="text" style="display:none;" id="greenList">
+		<br>
+		<input type="text" style="display:none;" id="whiteList">
+		<br>
+		<input type="text" style="display:none;" id="whoseCharacter">
+		<div id="characterField" style="background-color:#CCCCCC; width: 96%; margin: 2%; display:none ;position: fixed;
+    top: 0px;">
+			<input type="button" value="魏" onclick="showThisCharacterField('blue')">
+			<input type="button" value="蜀" onclick="showThisCharacterField('red')">
+			<input type="button" value="吳" onclick="showThisCharacterField('green')">
+			<input type="button" value="群" onclick="showThisCharacterField('white')">
+			<div id="blueCharacterField" style="padding: 10px; display:none;"></div>
+			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
+			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
+			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
+		</div>
+	</body>
+</html>
+
+<script type="text/javascript">
+	 
+    	var data = "123";
+        $.get("https://script.google.com/macros/s/AKfycbyj8FDoLbuF2-4goqJd8ymS0Y5TT6YQDvjGJ1AjSzlgZDqAWlg/exec", 
+        {
+        	"data": data
+        },
+        function (data) {
+        	data = data.split('R');
+        	var playerList = data[0];
+		    playerList = playerList.split(',');
+		    var playerOption = "";
+		    for (var i = 0; i < playerList.length-1; i++) {
+		    	playerList[i] = "<option value="+playerList[i]+">"+playerList[i]+"</option>";
+		    	playerOption = playerOption + playerList[i];
+		    }
+		    document.getElementById('playerList').value = playerOption;
+
+		    blueList = data[1];
+		    blueList = blueList.split(',');
+		    var blueButtons = "";
+		    for (var i = 0; i < blueList.length-1; i++) {
+		    	if(blueList[i] && blueList[i].indexOf("-"))
+		    	{
+			    	blueList[i] = "<input type='button' class='blueButtons' onclick='choseCharacter(this.value)' value='"+blueList[i]+"''>";
+			    	blueButtons = blueButtons + blueList[i];	
+		    	}
+		    	document.getElementById('blueCharacterField').innerHTML = blueButtons;
+		    }
+		    
+		    document.getElementById('blueList').value = blueButtons;
+
+		    redList = data[2];
+		    redList = redList.split(',');
+		    var redButtons = "";
+		    for (var i = 0; i < redList.length-1; i++) {
+		    	if(redList[i] && redList[i].indexOf("-"))
+		    	{
+			    	redList[i] = "<input type='button' class='redButtons' onclick='choseCharacter(this.value)' value='"+redList[i]+"''>";
+			    	redButtons = redButtons + redList[i];	
+		    	}
+		    	document.getElementById('redCharacterField').innerHTML = redButtons;
+		    }
+		    
+		    document.getElementById('redList').value = redButtons;
+
+		    greenList = data[3];
+		    greenList = greenList.split(',');
+		    var greeButtons = "";
+		    for (var i = 0; i < greenList.length-1; i++) {
+		    	if(greenList[i] && greenList[i].indexOf("-"))
+		    	{
+			    	greenList[i] = "<input type='button' class='greeButtons' onclick='choseCharacter(this.value)' value='"+greenList[i]+"''>";
+			    	greeButtons = greeButtons + greenList[i];	
+		    	}
+		    	document.getElementById('greenCharacterField').innerHTML = greeButtons;
+		    }
+		    
+		    document.getElementById('greenList').value = greeButtons;
+
+		    whiteList = data[4];
+		    whiteList = whiteList.split(',');
+		    var whiteButtons = "";
+		    for (var i = 0; i < whiteList.length; i++) {
+		    	if(whiteList[i] && whiteList[i].indexOf("-"))
+		    	{
+			    	whiteList[i] = "<input type='button' class='whiteButtons' onclick='choseCharacter(this.value)' value='"+whiteList[i]+"''>";
+			    	whiteButtons = whiteButtons + whiteList[i];	
+		    	}
+		    	document.getElementById('whiteCharacterField').innerHTML = whiteButtons;
+		    }
+		    
+		    document.getElementById('whiteList').value = whiteButtons;
+            	
+        });
+        
+    
+
+	function changeTotal()
+	{	
+		var total = document.getElementById("total").value;
+		deleteForm();
+		
+		for (var i = 0; i < total; i++) {
+			var table = document.getElementById("table");
+			var tbody = table.tBodies[0];
+			var row = document.createElement("tr");
+			var cell = document.createElement("td");
+			var j = i + 1;
+			cell.innerHTML = j+"<input type='hidden' id='position"+i+"'value="+j+">";
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = "<select id='player"+i+"'>"+document.getElementById('playerList').value+"</select>";
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = "<input type='text' id='character"+i+"'><input type='button'value='選擇' onclick = 'openCharacterList("+i+")'>";
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			if(i == 0)
+			{
+				cell.innerHTML = "<select id='identity"+i+"'><option value='主公'>主公</option></select>";
+			}else
+			{
+				cell.innerHTML = "<select id='identity"+i+"'><option value='反賊'>反賊</option><option value='忠臣'>忠臣</option><option value='內奸'>內奸</option></select>";
+			}
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = "<select id='remarks"+i+"'><option value=''>----</option><option value='大將'>大將</option><option value='軍師'>軍師</option><option value='賊首'>賊首</option></select>";
+			row.appendChild(cell);
+			tbody.appendChild(row);
+		}
+	}
+	function deleteForm() 
+	{
+    	var table = document.getElementById("table");
+    	while(table.rows.length>1){
+    		table.deleteRow(table.rows.length-1);
+    	}
+    		      
+	}
+    function Send()
+    {
+    	var total = document.getElementById("total").value;
+    	var winner = document.getElementById("winner").value;
+    	var data = "";
+    	
+    	
+    	for (var i = 0; i < total; i++) {
+    		var p = document.getElementById("position"+i).value;
+    		data = data+ document.getElementById("position"+i).value+",";
+    		data = data+ document.getElementById("player"+i).value+",";
+    		data = data+ document.getElementById("character"+i).value+",";
+    		data = data+ document.getElementById("identity"+i).value+",";
+    		data = data+ document.getElementById("remarks"+i).value+"&";
+    		
+    	}
+    	
+            $.get("https://script.google.com/macros/s/AKfycbzeAbTQh2wGquFTfQqjdJ1WMZ5RTRAf9biX-R-7E5CnKPinE7o/exec", 
+            {
+            	"data": data,
+            	"total": total,
+            	"winner": winner
+            },
+            function (result) {
+            	
+            	alert(result);
+            	
+            });
+           
+	}
+
+	function openCharacterList(target)
+	{
+		document.getElementById("whoseCharacter").value = "character"+target;
+		characterField.style.display='block';
+	}
+
+	function showThisCharacterField(target)
+	{
+		if(target == "blue")
+		{
+			blueCharacterField.style.display='block';
+			redCharacterField.style.display='none';
+			greenCharacterField.style.display='none';
+			whiteCharacterField.style.display='none';
+		}
+		if(target == "red")
+		{
+			blueCharacterField.style.display='none';
+			redCharacterField.style.display='block';
+			greenCharacterField.style.display='none';
+			whiteCharacterField.style.display='none';
+		}
+		if(target == "green")
+		{
+			blueCharacterField.style.display='none';
+			redCharacterField.style.display='none';
+			greenCharacterField.style.display='block';
+			whiteCharacterField.style.display='none';
+		}
+		if(target == "white")
+		{
+			blueCharacterField.style.display='none';
+			redCharacterField.style.display='none';
+			greenCharacterField.style.display='none';
+			whiteCharacterField.style.display='block';
+		}
+
+	}
+	function choseCharacter(character)
+	{
+		characterField.style.display='none';
+		blueCharacterField.style.display='none';
+		redCharacterField.style.display='none';
+		greenCharacterField.style.display='none';
+		whiteCharacterField.style.display='none';
+		var whoseCharacter = document.getElementById("whoseCharacter").value;
+		document.getElementById(whoseCharacter).value = character;
+	}
+
+</script>

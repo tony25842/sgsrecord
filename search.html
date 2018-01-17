@@ -1,0 +1,274 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style type="text/css"> 
+  </style> 
+</head>
+<html>
+	<body id="body" style="width: 100%;"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		人數<select id="total" >
+			<option value=''>		</option>
+			<option value='5'>5</option>
+			<option value='6'>6</option>
+			<option value='7'>7</option>
+			<option value='8'>8</option>
+
+		</select>
+
+		玩家<select id="playerList">
+			
+		</select>
+		<input type="button" class="send_button" name="enter" value="查詢" onclick="Send()">
+		<br>
+			總勝率：<span id = "win_rate_all"></span>
+			不含內勝率：<span id = "win_rate_notraitor"></span>
+			主公勝率：<span id = "win_rate_lord"></span>
+			忠臣勝率：<span id = "win_rate_loyalist"></span>
+			反賊勝率：<span id = "win_rate_rebels"></span>
+			內奸勝率：<span id = "win_rate_traitor"></span>
+		
+		<table  border='1px' id="table" ">
+			<tr>
+				<td>位置</td>
+				<td>玩家</td>
+				<td>武將</td>
+				<td>身分</td>
+				<td>大將/軍師</td>
+				<td>勝負</td>
+				<td>日期</td>
+				<td>人數</td>
+				<td>場次</td>
+			
+			</tr>
+		</table>
+	</body>
+</html>
+
+<script type="text/javascript">
+	 
+    	var data = "123";
+   	    var result = [];
+   	    var position, player,character,identify,sub_identify,win_lose,date_time,total,game_id;
+   	    var num_win_lord = 0,num_game_lord = 0,num_win_loyalist = 0,num_game_loyalist = 0,num_win_rebels = 0,num_game_rebels = 0,num_win_traitor = 0,num_game_traitor = 0;
+   	    
+   	    var url = location.search;
+   	    url = encodeURI(url);
+		var filter = new Object(); 
+		filter.position="";
+		filter.player="";
+		filter.character="";
+		filter.identify="";
+		filter.sub_identify="";
+		filter.win_lose="";
+		filter.date_time="";
+		filter.total="";
+		filter.game_id="";
+		if (url.indexOf("?") != -1) 
+		{ 
+		      var str = url.substr(1); 
+		      strs = str.split("&");  
+		      for(var i = 0; i < strs.length; i ++) {  
+		         filter[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+		      }  
+		}  
+		
+		
+
+        $.get("https://spreadsheets.google.com/feeds/cells/1H2IUA5a7sp6mb3MgfORv1hJI9mHFqFShRMxtIIrpsXc/2/public/values?alt=json", 
+        {
+        	"data": data
+        },
+        function (data) {
+
+        	for (var i = 0; i < data.feed.entry.length; i++) {
+        		
+        		var x = data.feed.entry[i].gs$cell.row;
+        		var y = data.feed.entry[i].gs$cell.col;
+        		
+        		if (y == 1){
+        			position = data.feed.entry[i].gs$cell.$t;
+        			sub_identify = "";
+        			
+        		}
+        		if (y == 2){
+        			player = data.feed.entry[i].gs$cell.$t;
+        			
+        		}
+        		if (y == 3){
+        			character = data.feed.entry[i].gs$cell.$t;
+        			
+        		}
+        		if (y == 4){
+        			identify = data.feed.entry[i].gs$cell.$t;
+        			
+        		}
+        		if (y == 5){
+        			sub_identify = data.feed.entry[i].gs$cell.$t;
+        		}
+        		if (y == 6){
+        			win_lose = data.feed.entry[i].gs$cell.$t;
+        			
+        		}
+        		if (y == 7){
+        			date_time = data.feed.entry[i].gs$cell.$t;
+        			
+        		}
+        		if (y == 8){
+        			total = data.feed.entry[i].gs$cell.$t;
+        			
+        		}
+        		if (y == 9){
+        			game_id = data.feed.entry[i].gs$cell.$t;
+
+	        		result[x] = new Object;
+
+	        		result[x].position=position;
+	        		result[x].player=player;
+	        		result[x].character=character;
+	        		result[x].identify=identify;
+	        		result[x].sub_identify=sub_identify;
+	        		result[x].win_lose=win_lose;
+	        		result[x].date_time=date_time;
+	        		result[x].total=total;
+	        		result[x].game_id=game_id;
+	        		if (x!=1)
+	        		{
+	        			write_row(result[x])
+	        		}
+	        		
+        		}
+        		
+        		//result[x] = [position, player,character,identify,sub_identify,win_lose,date_time,total,game_id]
+
+        	}
+		    
+	        		
+    		
+		                	
+        });
+
+        var data = "123";
+        $.get("https://script.google.com/macros/s/AKfycbyj8FDoLbuF2-4goqJd8ymS0Y5TT6YQDvjGJ1AjSzlgZDqAWlg/exec", 
+        {
+        	"data": data
+        },
+        function (data) {
+        	data = data.split('R');
+        	var playerList = data[0];
+		    playerList = playerList.split(',');
+		    var playerOption = "<option value="+""+"></option>";
+		    for (var i = 0; i < playerList.length-1; i++) {
+		    	if(playerList[i])
+		    	{
+		    		playerList[i] = "<option value="+playerList[i]+">"+playerList[i]+"</option>";
+		    		playerOption = playerOption + playerList[i];
+		    	}
+		    }
+		    document.getElementById('playerList').innerHTML = playerOption;
+
+		    document.getElementById("total").value = filter.total;
+		    document.getElementById("playerList").value = filter.player;
+           	
+        });
+
+        function write_row(source)
+        {
+
+        	if(filter.total && source.total != filter.total)
+        	{
+        		return 0;
+        	}
+        	if(filter.player && encodeURI(source.player) != filter.player)
+        	{
+        		return 0;
+        	}
+        	var table = document.getElementById("table");
+			var tbody = table.tBodies[0];
+       		var row = document.createElement("tr");
+			var cell = document.createElement("td");
+			cell.innerHTML = source.position;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.player;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.character;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.identify;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.sub_identify;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.win_lose;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.date_time;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.total;
+			row.appendChild(cell);
+			cell = document.createElement("td");
+			cell.innerHTML = source.game_id;
+			row.appendChild(cell);
+			tbody.appendChild(row);
+
+			if(identify == "主公")
+			{
+				num_game_lord++;
+				if (source.win_lose == "勝") 
+				{
+					num_win_lord++;
+				}
+				
+				document.getElementById("win_rate_lord").innerHTML=Math.round(num_win_lord/num_game_lord*10000)/100;
+			}
+
+			if(identify == "忠臣")
+			{
+				num_game_loyalist++;
+				if (source.win_lose == "勝") 
+				{
+					num_win_loyalist++;
+				}
+				document.getElementById("win_rate_loyalist").innerHTML=Math.round(num_win_loyalist/num_game_loyalist*10000)/100;
+			}
+
+			if(identify == "反賊")
+			{
+				num_game_rebels++;
+				if (source.win_lose == "勝") 
+				{
+					num_win_rebels++;
+				}
+				document.getElementById("win_rate_rebels").innerHTML=Math.round(num_win_rebels/num_game_rebels*10000)/100;
+			}
+
+			if(identify == "內奸")
+			{
+				num_game_traitor++;
+				if (source.win_lose == "勝") 
+				{
+					num_win_traitor++;
+				}
+				document.getElementById("win_rate_traitor").innerHTML=Math.round(num_win_traitor/num_game_traitor*10000)/100;
+			}
+			
+			document.getElementById("win_rate_all").innerHTML=Math.round((num_win_lord+num_win_loyalist+num_win_rebels+num_win_traitor)/(num_game_lord+num_game_loyalist+num_game_rebels+num_game_traitor)*10000)/100;
+			document.getElementById("win_rate_notraitor").innerHTML=Math.round((num_win_lord+num_win_loyalist+num_win_rebels)/(num_game_lord+num_game_loyalist+num_game_rebels)*10000)/100;
+			
+        }
+
+        function Send(){
+        	var newurl = document.location.href.split("?");
+        	var newtotal = document.getElementById("total").value;
+        	var newplayer = document.getElementById("playerList").value;
+
+			console.log(newurl[0]+'?total='+newtotal+'&player='+newplayer);
+			window.location.href=newurl[0]+'?total='+newtotal+'&player='+newplayer;
+        }
+
+        
+    
+
+</script>

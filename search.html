@@ -19,12 +19,43 @@
 		</select>
 		<input type="button" class="send_button" name="enter" value="查詢" onclick="Send()">
 		<br>
-			總勝率：<span id = "win_rate_all"></span>
-			不含內勝率：<span id = "win_rate_notraitor"></span>
-			主公勝率：<span id = "win_rate_lord"></span>
-			忠臣勝率：<span id = "win_rate_loyalist"></span>
-			反賊勝率：<span id = "win_rate_rebels"></span>
-			內奸勝率：<span id = "win_rate_traitor"></span>
+			
+		<table border='1px'>
+			<tr>
+				<td>總勝率</td>
+				<td>不含內勝率</td>
+				<td>主公勝率</td>
+				<td>忠臣勝率</td>
+				<td>反賊勝率</td>
+				<td>內奸勝率</td>
+			</tr>
+			<tr>
+				<td><span id = "win_rate_all"></span>%</td>
+				<td><span id = "win_rate_notraitor"></span>%</td>
+				<td><span id = "win_rate_lord"></span>%</td>
+				<td><span id = "win_rate_loyalist"></span>%</td>
+				<td><span id = "win_rate_rebels"></span>%</td>
+				<td><span id = "win_rate_traitor"></span>%</td>
+			</tr>
+		</table>
+		<table border='1px'>
+			<tr>
+				<td>總場次</td>
+				<td>不含內場次</td>
+				<td>主公場次</td>
+				<td>忠臣場次</td>
+				<td>反賊場次</td>
+				<td>內奸場次</td>
+			</tr>
+			<tr>
+				<td><span id = "num_game_all"></span>回</td>
+				<td><span id = "num_game_notraitor"></span>回</td>
+				<td><span id = "num_game_lord"></span>回</td>
+				<td><span id = "num_game_loyalist"></span>回</td>
+				<td><span id = "num_game_rebels"></span>回</td>
+				<td><span id = "num_game_traitor"></span>回</td>
+			</tr>
+		</table>
 		
 		<table  border='1px' id="table" ">
 			<tr>
@@ -64,11 +95,13 @@
 		filter.game_id="";
 		if (url.indexOf("?") != -1) 
 		{ 
-		      var str = url.substr(1); 
-		      strs = str.split("&");  
-		      for(var i = 0; i < strs.length; i ++) {  
-		         filter[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
-		      }  
+			var str = url.substr(1); 
+			strs = str.split("&");  
+			for(var i = 0; i < strs.length; i ++) {  
+				filter[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+			}  
+			document.getElementById("total").value = filter.total;
+		    document.getElementById("playerList").value = filter.player;
 		}  
 		
 		
@@ -164,9 +197,8 @@
 		    	}
 		    }
 		    document.getElementById('playerList').innerHTML = playerOption;
+		    document.getElementById("playerList").value = decodeURI(filter.player);
 
-		    document.getElementById("total").value = filter.total;
-		    document.getElementById("playerList").value = filter.player;
            	
         });
 
@@ -220,7 +252,7 @@
 				{
 					num_win_lord++;
 				}
-				
+				document.getElementById("num_game_lord").innerHTML=num_game_lord;
 				document.getElementById("win_rate_lord").innerHTML=Math.round(num_win_lord/num_game_lord*10000)/100;
 			}
 
@@ -231,6 +263,7 @@
 				{
 					num_win_loyalist++;
 				}
+				document.getElementById("num_game_loyalist").innerHTML=num_game_loyalist;
 				document.getElementById("win_rate_loyalist").innerHTML=Math.round(num_win_loyalist/num_game_loyalist*10000)/100;
 			}
 
@@ -241,6 +274,7 @@
 				{
 					num_win_rebels++;
 				}
+				document.getElementById("num_game_rebels").innerHTML=num_game_rebels;
 				document.getElementById("win_rate_rebels").innerHTML=Math.round(num_win_rebels/num_game_rebels*10000)/100;
 			}
 
@@ -251,9 +285,11 @@
 				{
 					num_win_traitor++;
 				}
+				document.getElementById("num_game_traitor").innerHTML=num_game_traitor;
 				document.getElementById("win_rate_traitor").innerHTML=Math.round(num_win_traitor/num_game_traitor*10000)/100;
 			}
-			
+			document.getElementById("num_game_all").innerHTML=num_game_lord+num_game_loyalist+num_game_rebels+num_game_traitor;
+			document.getElementById("num_game_notraitor").innerHTML=num_game_lord+num_game_loyalist+num_game_rebels;
 			document.getElementById("win_rate_all").innerHTML=Math.round((num_win_lord+num_win_loyalist+num_win_rebels+num_win_traitor)/(num_game_lord+num_game_loyalist+num_game_rebels+num_game_traitor)*10000)/100;
 			document.getElementById("win_rate_notraitor").innerHTML=Math.round((num_win_lord+num_win_loyalist+num_win_rebels)/(num_game_lord+num_game_loyalist+num_game_rebels)*10000)/100;
 			

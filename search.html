@@ -17,6 +17,11 @@
 		玩家<select id="playerList">
 			
 		</select>
+
+		武將<input type="text" name="" id = "character">
+		<input type="button" class="send_button" name="enter" value="選擇武將" onclick="openCharacterList()">
+		
+
 		<input type="button" class="send_button" name="enter" value="查詢" onclick="Send()">
 		<br>
 			
@@ -71,6 +76,28 @@
 			
 			</tr>
 		</table>
+		<div id="characterField" style="background-color:#CCCCCC; width: 90%; margin: 5%; display:none ;position: fixed;top: 0px;">
+			<input type="button" class='select_button' value="魏" onclick="showThisCharacterField('blue')">
+			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
+			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
+			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
+			<input type="button" class='select_button' value="X" onclick="choseCharacter('')">
+			<div id="blueCharacterField" style="padding: 10px; display:none;"></div>
+			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
+			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
+			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
+		</div>
+		<input type="text" style="display:none;" id="playerList">
+		<br>
+		<input type="text" style="display:none;" id="blueList">
+		<br>
+		<input type="text" style="display:none;" id="redList">
+		<br>
+		<input type="text" style="display:none;" id="greenList">
+		<br>
+		<input type="text" style="display:none;" id="whiteList">
+		<br>
+		<input type="text" style="display:none;" id="whoseCharacter">
 	</body>
 </html>
 
@@ -198,6 +225,63 @@
 		    }
 		    document.getElementById('playerList').innerHTML = playerOption;
 		    document.getElementById("playerList").value = decodeURI(filter.player);
+		    document.getElementById("character").value = decodeURI(filter.character);
+
+		    blueList = data[1];
+		    blueList = blueList.split(',');
+		    var blueButtons = "";
+		    for (var i = 0; i < blueList.length-1; i++) {
+		    	if(blueList[i] && blueList[i].indexOf("-"))
+		    	{
+			    	blueList[i] = "<input type='button' class='blueButtons' onclick='choseCharacter(this.value)' value='"+blueList[i]+"''>";
+			    	blueButtons = blueButtons + blueList[i];	
+		    	}
+		    	document.getElementById('blueCharacterField').innerHTML = blueButtons;
+		    }
+		    
+		    document.getElementById('blueList').value = blueButtons;
+
+		    redList = data[2];
+		    redList = redList.split(',');
+		    var redButtons = "";
+		    for (var i = 0; i < redList.length-1; i++) {
+		    	if(redList[i] && redList[i].indexOf("-"))
+		    	{
+			    	redList[i] = "<input type='button' class='redButtons' onclick='choseCharacter(this.value)' value='"+redList[i]+"''>";
+			    	redButtons = redButtons + redList[i];	
+		    	}
+		    	document.getElementById('redCharacterField').innerHTML = redButtons;
+		    }
+		    
+		    document.getElementById('redList').value = redButtons;
+
+		    greenList = data[3];
+		    greenList = greenList.split(',');
+		    var greenButtons = "";
+		    for (var i = 0; i < greenList.length-1; i++) {
+		    	if(greenList[i] && greenList[i].indexOf("-"))
+		    	{
+			    	greenList[i] = "<input type='button' class='greenButtons' onclick='choseCharacter(this.value)' value='"+greenList[i]+"''>";
+			    	greenButtons = greenButtons + greenList[i];	
+		    	}
+		    	document.getElementById('greenCharacterField').innerHTML = greenButtons;
+		    }
+		    
+		    document.getElementById('greenList').value = greenButtons;
+
+		    whiteList = data[4];
+		    whiteList = whiteList.split(',');
+		    var whiteButtons = "";
+		    for (var i = 0; i < whiteList.length; i++) {
+		    	if(whiteList[i] && whiteList[i].indexOf("-"))
+		    	{
+			    	whiteList[i] = "<input type='button' class='whiteButtons' onclick='choseCharacter(this.value)' value='"+whiteList[i]+"''>";
+			    	whiteButtons = whiteButtons + whiteList[i];	
+		    	}
+		    	document.getElementById('whiteCharacterField').innerHTML = whiteButtons;
+		    }
+		    
+		    document.getElementById('whiteList').value = whiteButtons;
 
            	
         });
@@ -210,6 +294,10 @@
         		return 0;
         	}
         	if(filter.player && encodeURI(source.player) != filter.player)
+        	{
+        		return 0;
+        	}
+        	if(filter.character && encodeURI(source.character) != filter.character)
         	{
         		return 0;
         	}
@@ -295,13 +383,62 @@
 			
         }
 
-        function Send(){
+		function showThisCharacterField(target)
+		{
+			if(target == "blue")
+			{
+				blueCharacterField.style.display='block';
+				redCharacterField.style.display='none';
+				greenCharacterField.style.display='none';
+				whiteCharacterField.style.display='none';
+			}
+			if(target == "red")
+			{
+				blueCharacterField.style.display='none';
+				redCharacterField.style.display='block';
+				greenCharacterField.style.display='none';
+				whiteCharacterField.style.display='none';
+			}
+			if(target == "green")
+			{
+				blueCharacterField.style.display='none';
+				redCharacterField.style.display='none';
+				greenCharacterField.style.display='block';
+				whiteCharacterField.style.display='none';
+			}
+			if(target == "white")
+			{
+				blueCharacterField.style.display='none';
+				redCharacterField.style.display='none';
+				greenCharacterField.style.display='none';
+				whiteCharacterField.style.display='block';
+			}
+
+		}
+		function choseCharacter(character)
+		{
+			characterField.style.display='none';
+			blueCharacterField.style.display='none';
+			redCharacterField.style.display='none';
+			greenCharacterField.style.display='none';
+			whiteCharacterField.style.display='none';
+			
+			document.getElementById("character").value = character;
+		}
+
+		function openCharacterList(target)
+		{
+			document.getElementById("whoseCharacter").value = "character"+target;
+			characterField.style.display='block';
+		}
+
+        function Send()
+        {
         	var newurl = document.location.href.split("?");
         	var newtotal = document.getElementById("total").value;
         	var newplayer = document.getElementById("playerList").value;
-
-			console.log(newurl[0]+'?total='+newtotal+'&player='+newplayer);
-			window.location.href=newurl[0]+'?total='+newtotal+'&player='+newplayer;
+        	var newcharacter = document.getElementById("character").value;
+			window.location.href=newurl[0]+'?total='+newtotal+'&player='+newplayer+'&character='+newcharacter;
         }
 
         

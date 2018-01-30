@@ -46,12 +46,12 @@
 				<td><span id = "all_win_rate_traitor"></span>%</td>
 			</tr>
 		</table>
+		
+		<div id="personal" style="display: none;">
 		<br>
-		<span id="personal_title" style="display: none;">
 			個人
-		</span>
 		<br>
-		<table border='1px' id="personal" style="display: none;">
+		<table border='1px'>
 			
 			<tr>
 				<td>總勝率</td>
@@ -87,7 +87,9 @@
 				<td><span id = "num_game_traitor"></span>回</td>
 			</tr>
 		</table>
+		</div>
 		<br>
+
 		<table  border='1px' id="table" ">
 			<tr>
 				<td>位置</td>
@@ -103,6 +105,7 @@
 			</tr>
 		</table>
 		<div id="characterField" style="background-color:#CCCCCC; width: 90%; margin: 5%; display:none ;position: fixed;top: 0px;">
+			<input type="button" class='select_button' value="清除" onclick="choseCharacter('')">
 			<input type="button" class='select_button' value="魏" onclick="showThisCharacterField('blue')">
 			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
 			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
@@ -113,7 +116,7 @@
 			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
 			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
 
-			<input type="button" style="float: right;" class='select_button' value="X" onclick="choseCharacter('')">
+			
 		</div>
 		<input type="text" style="display:none;" id="playerList">
 		<br>
@@ -160,7 +163,6 @@
 		    document.getElementById("playerList").value = filter.player;
 		    if(filter.player)
 		    {
-		    	$("#personal_title").show();
 		    	$("#personal").show();
 			}
 		}  
@@ -333,7 +335,7 @@
         	{
         		return 0;
         	}
-        	
+
 			if(identify == "主公")
 			{
 				all_num_game_lord++;

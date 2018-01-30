@@ -23,9 +23,36 @@
 		
 
 		<input type="button" class="send_button" name="enter" value="查詢" onclick="Send()">
+
 		<br>
-			
+		全體
+		<br>
 		<table border='1px'>
+			
+			<tr>
+				<td>總勝率</td>
+				<td>不含內勝率</td>
+				<td>主公勝率</td>
+				<td>忠臣勝率</td>
+				<td>反賊勝率</td>
+				<td>內奸勝率</td>
+			</tr>
+			<tr>
+				<td><span id = "all_win_rate_all"></span>%</td>
+				<td><span id = "all_win_rate_notraitor"></span>%</td>
+				<td><span id = "all_win_rate_lord"></span>%</td>
+				<td><span id = "all_win_rate_loyalist"></span>%</td>
+				<td><span id = "all_win_rate_rebels"></span>%</td>
+				<td><span id = "all_win_rate_traitor"></span>%</td>
+			</tr>
+		</table>
+		<br>
+		<span id="personal_title" style="display: none;">
+			個人
+		</span>
+		<br>
+		<table border='1px' id="personal" style="display: none;">
+			
 			<tr>
 				<td>總勝率</td>
 				<td>不含內勝率</td>
@@ -42,8 +69,7 @@
 				<td><span id = "win_rate_rebels"></span>%</td>
 				<td><span id = "win_rate_traitor"></span>%</td>
 			</tr>
-		</table>
-		<table border='1px'>
+
 			<tr>
 				<td>總場次</td>
 				<td>不含內場次</td>
@@ -61,7 +87,7 @@
 				<td><span id = "num_game_traitor"></span>回</td>
 			</tr>
 		</table>
-		
+		<br>
 		<table  border='1px' id="table" ">
 			<tr>
 				<td>位置</td>
@@ -81,11 +107,13 @@
 			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
 			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
 			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
-			<input type="button" class='select_button' value="X" onclick="choseCharacter('')">
-			<div id="blueCharacterField" style="padding: 10px; display:none;"></div>
+			
+			<div id="blueCharacterField" style="padding: 10px; "></div>
 			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
 			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
 			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
+
+			<input type="button" style="float: right;" class='select_button' value="X" onclick="choseCharacter('')">
 		</div>
 		<input type="text" style="display:none;" id="playerList">
 		<br>
@@ -106,6 +134,8 @@
    	    var result = [];
    	    var position, player,character,identify,sub_identify,win_lose,date_time,total,game_id;
    	    var num_win_lord = 0,num_game_lord = 0,num_win_loyalist = 0,num_game_loyalist = 0,num_win_rebels = 0,num_game_rebels = 0,num_win_traitor = 0,num_game_traitor = 0;
+
+   	    var all_num_win_lord = 0,all_num_game_lord = 0,all_num_win_loyalist = 0,all_num_game_loyalist = 0,all_num_win_rebels = 0,all_num_game_rebels = 0,all_num_win_traitor = 0,all_num_game_traitor = 0;
    	    
    	    var url = location.search;
    	    url = encodeURI(url);
@@ -128,6 +158,11 @@
 			}  
 			document.getElementById("total").value = filter.total;
 		    document.getElementById("playerList").value = filter.player;
+		    if(filter.player)
+		    {
+		    	$("#personal_title").show();
+		    	$("#personal").show();
+			}
 		}  
 		
 		
@@ -288,11 +323,64 @@
         function write_row(source)
         {
 
-        	if(filter.game_id && source.game_id != filter.game_id)
+
+        	if(filter.total && source.total != filter.total)
         	{
         		return 0;
         	}
-        	if(filter.total && source.total != filter.total)
+
+        	if(filter.character && encodeURI(source.character) != filter.character)
+        	{
+        		return 0;
+        	}
+        	
+			if(identify == "主公")
+			{
+				all_num_game_lord++;
+				if (source.win_lose == "勝") 
+				{
+					all_num_win_lord++;
+				}
+				//document.getElementById("all_num_game_lord").innerHTML=all_num_game_lord;
+				document.getElementById("all_win_rate_lord").innerHTML=Math.round(all_num_win_lord/all_num_game_lord*10000)/100;
+			}
+
+			if(identify == "忠臣")
+			{
+				all_num_game_loyalist++;
+				if (source.win_lose == "勝") 
+				{
+					all_num_win_loyalist++;
+				}
+				//document.getElementById("all_num_game_loyalist").innerHTML=all_num_game_loyalist;
+				document.getElementById("all_win_rate_loyalist").innerHTML=Math.round(all_num_win_loyalist/all_num_game_loyalist*10000)/100;
+			}
+
+			if(identify == "反賊")
+			{
+				all_num_game_rebels++;
+				if (source.win_lose == "勝") 
+				{
+					all_num_win_rebels++;
+				}
+				//document.getElementById("all_num_game_rebels").innerHTML=all_num_game_rebels;
+				document.getElementById("all_win_rate_rebels").innerHTML=Math.round(all_num_win_rebels/all_num_game_rebels*10000)/100;
+			}
+
+			if(identify == "內奸")
+			{
+				all_num_game_traitor++;
+				if (source.win_lose == "勝") 
+				{
+					all_num_win_traitor++;
+				}
+				//document.getElementById("all_num_game_traitor").innerHTML=all_num_game_traitor;
+				document.getElementById("all_win_rate_traitor").innerHTML=Math.round(all_num_win_traitor/all_num_game_traitor*10000)/100;
+			}
+
+			document.getElementById("all_win_rate_all").innerHTML=Math.round((all_num_win_lord+all_num_win_loyalist+all_num_win_rebels+all_num_win_traitor)/(all_num_game_lord+all_num_game_loyalist+all_num_game_rebels+all_num_game_traitor)*10000)/100;
+			document.getElementById("all_win_rate_notraitor").innerHTML=Math.round((all_num_win_lord+all_num_win_loyalist+all_num_win_rebels)/(all_num_game_lord+all_num_game_loyalist+all_num_game_rebels)*10000)/100;
+        	if(filter.game_id && source.game_id != filter.game_id)
         	{
         		return 0;
         	}
@@ -300,10 +388,7 @@
         	{
         		return 0;
         	}
-        	if(filter.character && encodeURI(source.character) != filter.character)
-        	{
-        		return 0;
-        	}
+        	
         	var table = document.getElementById("table");
 			var tbody = table.tBodies[0];
        		var row = document.createElement("tr");
@@ -421,10 +506,6 @@
 		function choseCharacter(character)
 		{
 			characterField.style.display='none';
-			blueCharacterField.style.display='none';
-			redCharacterField.style.display='none';
-			greenCharacterField.style.display='none';
-			whiteCharacterField.style.display='none';
 			
 			document.getElementById("character").value = character;
 		}

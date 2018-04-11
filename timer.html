@@ -7,7 +7,7 @@
 	<title>計時器</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<style type="text/css"> 
-	.stattCountDown ,.asking ,.next, .pause{
+	.startCountDown ,.ask ,.next, .pause{
 		font-size: 200px;
 		margin: 5px;
 	}
@@ -29,14 +29,15 @@
 <body>
 	<div id="oprationZone" class="oprationZone">
 		<input type="text" id="countDownSec" class="countDownSec" value="120"><br>
-		<input type="button" id="stattCountDown" class="stattCountDown" value="開始" onclick="starting()">
-		<input type="button" id="asking" class="asking" value="詢問" onclick="asking()"><br>
+		<input type="button" id="startCountDown" class="startCountDown" value="開始" onclick="starting()">
+		<input type="button" id="ask" class="ask" value="詢問" onclick="startask()"><br>
 		<input type="text" id="askSec" class="askSec" value="5"><br>
 		<input type="button" id="next" class="next" value="換人" onclick="next()">
 		<input type="button" id="pause" class="pause" value="暫停" onclick="pause()"><br>
 	</div>
 	<div id="debugZone" class="debugZone" style="display: none;">
 		<input type="text" id="starting" class="starting" value="0"><br>
+		<input type="text" id="asking" class="asking" value="0"><br>
 		<input type="text" id="pausing" class="pausing" value="0"><br>
 	</div>
 </body>
@@ -48,12 +49,21 @@
 			setTimeout(startCountDown, 1000);
 		}
 	}
+	function startask(){
+		if (document.getElementById("asking").value == 0){
+			document.getElementById("asking").value = 1;
+			setTimeout(ask, 1000);
+		}
+		if (document.getElementById("asking").value == 1){
+			document.getElementById("askSec").value = 5;
+		}
+	}
 	function startCountDown(){
 		if (document.getElementById("pausing").value == 1){
 			return 0;
 		}
 		if(document.getElementById("countDownSec").value <= 0){
-			document.getElementById("countDownSec").value = 121;
+			document.getElementById("countDownSec").value = 120;
 			document.getElementById("starting").value = 0;
 			setTimeout(startCountDown, 1000);
 		}else{
@@ -73,7 +83,7 @@
 		}
 	}
 
-	function asking()
+	function ask()
 	{
 		if (document.getElementById("pausing").value == 0){
 			document.getElementById("pausing").value = 1;
@@ -81,9 +91,10 @@
 		if(document.getElementById("askSec").value <= 0){
 			document.getElementById("askSec").value = 6;
 			document.getElementById("pausing").value = 0;
+			document.getElementById("asking").value = 0;
 			setTimeout(startCountDown, 1000);
 		}else{
-			setTimeout(asking, 1000);
+			setTimeout(ask, 1000);
 		}
 		document.getElementById("askSec").value--; 
 	}

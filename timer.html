@@ -83,9 +83,11 @@
 	function startask(){
 		document.getElementById("askSec").value = document.getElementById("askSecSet").value;
 		document.getElementById("target").value = "askSec";
+		document.getElementById("pausing").value = 0;
 	}
 
 	function starting(){
+		document.getElementById("target").value = "countDownSec";
 		document.getElementById("pausing").value = 0;
 	}
 

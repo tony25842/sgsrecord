@@ -87,12 +87,18 @@
 	}
 
 	function starting(){
+		document.getElementById("askSec").value = document.getElementById("askSecSet").value;
 		document.getElementById("target").value = "countDownSec";
 		document.getElementById("pausing").value = 0;
 	}
 
 	function pause(){
-		document.getElementById("pausing").value = 1;
+		if (document.getElementById("pausing").value = 1 ){
+			document.getElementById("pausing").value = 0;
+		}else{
+			document.getElementById("pausing").value = 1;
+		}
+		
 	}
 
 	function next(){

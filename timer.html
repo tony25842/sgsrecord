@@ -7,12 +7,12 @@
 	<title>計時器</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<style type="text/css"> 
-	.startCountDown ,.ask ,.next, .pause{
+	.startCountDown ,.ask ,.next, .pause ,.setReady{
 		font-size: 200px;
 		margin: 5px;
 	}
 
-	.countDownSec ,.askSec{
+	.countDownSec ,.askSec ,.countDownSecSet ,.askSecSet{
 		border: 0px;
 		text-align: center;
 		font-size: 200px;
@@ -20,7 +20,7 @@
 		min-width: 10px;
 	}
 
-	.oprationZone{
+	.oprationZone ,.setUpZone{
 		width: 100%;
 		text-align: center;
 	}
@@ -31,7 +31,22 @@
 	</style> 
 </head>
 <body>
-	<div id="oprationZone" class="oprationZone">
+	<div id="setUpZone" class="setUpZone">
+		<select id="countDownSecSet" class="countDownSecSet">
+			<option>120</option>
+			<option>90</option>
+			<option>60</option>
+			<option>30</option>
+		</select> <br>
+		<select id="askSecSet" class="askSecSet">
+			<option>5</option>
+			<option>10</option>
+			<option>15</option>
+			<option>20</option>
+		</select> <br>
+		<input type="button" id="setReady" class="setReady" value="完成" onclick="setReady()"><br>
+	</div>
+	<div id="oprationZone" class="oprationZone" style="display: none;">
 		<input type="text" id="countDownSec" class="countDownSec" value="120"><br>
 		<input type="button" id="startCountDown" class="startCountDown" value="開始" onclick="starting()">
 		<input type="button" id="ask" class="ask" value="詢問" onclick="startask()"><br>
@@ -59,13 +74,13 @@
 			alert('時間結束');
 		}
 		if(document.getElementById("askSec").value <= 0){
-			document.getElementById("askSec").value = 5;
+			document.getElementById("askSec").value = document.getElementById("askSecSet").value;
 			document.getElementById("target").value = "countDownSec";
 		}
 	}
 
 	function startask(){
-		document.getElementById("askSec").value = 5;
+		document.getElementById("askSec").value = document.getElementById("countDownSecSet").value;
 		document.getElementById("target").value = "askSec";
 	}
 
@@ -78,9 +93,16 @@
 	}
 
 	function next(){
-		document.getElementById("countDownSec").value = 120;
-		document.getElementById("askSec").value = 5;
+		document.getElementById("countDownSec").value = document.getElementById("countDownSecSet").value;
+		document.getElementById("askSec").value = document.getElementById("askSecSet").value;
 		document.getElementById("target").value = "countDownSec";
+	}
+
+	function setReady(){
+		oprationZone.style.display='block';
+		setUpZone.style.display='none';
+		document.getElementById("countDownSec").value = document.getElementById("countDownSecSet").value;
+		document.getElementById("askSec").value = document.getElementById("askSecSet").value;
 	}
 
 </script>

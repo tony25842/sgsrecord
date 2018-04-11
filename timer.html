@@ -24,6 +24,10 @@
 		width: 100%;
 		text-align: center;
 	}
+
+	.debugZone{
+		display:none;
+	}
 	</style> 
 </head>
 <body>
@@ -35,71 +39,48 @@
 		<input type="button" id="next" class="next" value="換人" onclick="next()">
 		<input type="button" id="pause" class="pause" value="暫停" onclick="pause()"><br>
 	</div>
-	<div id="debugZone" class="debugZone" style="display: none;">
-		<input type="text" id="starting" class="starting" value="0"><br>
-		<input type="text" id="asking" class="asking" value="0"><br>
-		<input type="text" id="pausing" class="pausing" value="0"><br>
+	<div id="debugZone" class="debugZone" >
+		target<input type="text" id="target" class="target" value="countDownSec"><br>
+		pausing<input type="text" id="pausing" class="pausing" value="1"><br>
 	</div>
 </body>
 </html>
 <script type="text/javascript">
-	
-	function starting(){
-		if (document.getElementById("starting").value == 0){
-			setTimeout(startCountDown, 1000);
-		}
-	}
-	function startask(){
-		if (document.getElementById("asking").value == 0){
-			document.getElementById("asking").value = 1;
-			setTimeout(ask, 1000);
-		}
-		if (document.getElementById("asking").value == 1){
-			document.getElementById("askSec").value = 5;
-		}
-	}
-	function startCountDown(){
-		if (document.getElementById("pausing").value == 1){
-			return 0;
+	countDown();
+	function countDown(){
+		setTimeout(countDown, 1000);
+		if (document.getElementById("pausing").value == 0){
+			target = document.getElementById("target").value;
+			document.getElementById(target).value--;
 		}
 		if(document.getElementById("countDownSec").value <= 0){
-			document.getElementById("countDownSec").value = 120;
-			document.getElementById("starting").value = 0;
-			setTimeout(startCountDown, 1000);
-		}else{
-			document.getElementById("starting").value = 1;
-			setTimeout(startCountDown, 1000);
-		}
-		document.getElementById("countDownSec").value--; 
-	}
-
-	function pause()
-	{
-		if (document.getElementById("pausing").value == 0){
-			document.getElementById("pausing").value = 1;
-		}else{
-			document.getElementById("pausing").value = 0;
-			setTimeout(startCountDown, 1000);
-		}
-	}
-
-	function ask()
-	{
-		if (document.getElementById("pausing").value == 0){
-			document.getElementById("pausing").value = 1;
+			next();
+			pause();
+			alert('時間結束');
 		}
 		if(document.getElementById("askSec").value <= 0){
-			document.getElementById("askSec").value = 6;
-			document.getElementById("pausing").value = 0;
-			document.getElementById("asking").value = 0;
-			setTimeout(startCountDown, 1000);
-		}else{
-			setTimeout(ask, 1000);
+			document.getElementById("askSec").value = 5;
+			document.getElementById("target").value = "countDownSec";
 		}
-		document.getElementById("askSec").value--; 
+	}
+
+	function startask(){
+		document.getElementById("askSec").value = 5;
+		document.getElementById("target").value = "askSec";
+	}
+
+	function starting(){
+		document.getElementById("pausing").value = 0;
+	}
+
+	function pause(){
+		document.getElementById("pausing").value = 1;
 	}
 
 	function next(){
 		document.getElementById("countDownSec").value = 120;
+		document.getElementById("askSec").value = 5;
+		document.getElementById("target").value = "countDownSec";
 	}
+
 </script>

@@ -52,7 +52,7 @@
 			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
 			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
 			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
-			<div id="blueCharacterField" style="padding: 10px; display:none;"></div>
+			<div id="blueCharacterField" style="padding: 10px;"></div>
 			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
 			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
 			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
@@ -73,8 +73,10 @@
 		    playerList = playerList.split(',');
 		    var playerOption = "";
 		    for (var i = 0; i < playerList.length-1; i++) {
-		    	playerList[i] = "<option value="+playerList[i]+">"+playerList[i]+"</option>";
-		    	playerOption = playerOption + playerList[i];
+		    	if(playerList[i]){
+		    		playerList[i] = "<option value="+playerList[i]+">"+playerList[i]+"</option>";
+		    		playerOption = playerOption + playerList[i];
+		    	}
 		    }
 		    document.getElementById('playerList').value = playerOption;
 
@@ -252,10 +254,6 @@
 	function choseCharacter(character)
 	{
 		characterField.style.display='none';
-		blueCharacterField.style.display='none';
-		redCharacterField.style.display='none';
-		greenCharacterField.style.display='none';
-		whiteCharacterField.style.display='none';
 		var whoseCharacter = document.getElementById("whoseCharacter").value;
 		document.getElementById(whoseCharacter).value = character;
 	}

@@ -72,7 +72,7 @@
         	data = data.split('R');
         	var playerList = data[0];
 		    playerList = playerList.split(',');
-		    var playerOption = "";
+		    var playerOption = "<option>----</option>";
 		    for (var i = 0; i < playerList.length-1; i++) {
 		    	if(playerList[i]){
 		    		playerList[i] = "<option value="+playerList[i]+">"+playerList[i]+"</option>";

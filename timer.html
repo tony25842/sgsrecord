@@ -31,7 +31,7 @@
 	}
 	</style> 
 </head>
-<body>
+<body id="body" class="body">
 	<div id="setUpZone" class="setUpZone">
 		<select id="countDownSecSet" class="countDownSecSet">
 			<option>120</option>
@@ -81,6 +81,19 @@
 		if(document.getElementById("askSec").value <= 0){
 			document.getElementById("askSec").value = document.getElementById("askSecSet").value;
 			document.getElementById("target").value = "countDownSec";
+		}
+		if (document.getElementById("pausing").value == 1){
+			body.style.background='#666666';
+		}else{
+			if(target == "countDownSec" && time > 5){
+				body.style.background='#FFFFFF';
+			}
+			if(target == "countDownSec" && time <= 5){
+				body.style.background='#FF3333';
+			}
+			if(target == "askSec"){
+				body.style.background='#33FF33';
+			}
 		}
 	}
 

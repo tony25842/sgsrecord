@@ -72,7 +72,7 @@
         	data = data.split('R');
         	var playerList = data[0];
 		    playerList = playerList.split(',');
-		    var playerOption = "<option>----</option>";
+		    var playerOption = "<option value = ''>----</option>";
 		    for (var i = 0; i < playerList.length-1; i++) {
 		    	if(playerList[i]){
 		    		playerList[i] = "<option value="+playerList[i]+">"+playerList[i]+"</option>";
@@ -170,7 +170,14 @@
 			}
 			row.appendChild(cell);
 			cell = document.createElement("td");
-			cell.innerHTML = "<select id='remarks"+i+"' style='font-size: 25px;'><option value=''>----</option><option value='大將'>大將</option><option value='軍師'>軍師</option><option value='賊首'>賊首</option></select>";
+			if(i == 0)
+			{
+				cell.innerHTML = "<select id='remarks"+i+"' style='font-size: 25px;'><option value=''>----</option></select>";
+			}else
+			{
+				cell.innerHTML = "<select id='remarks"+i+"' style='font-size: 25px;'><option value=''>----</option><option value='大將'>大將</option><option value='軍師'>軍師</option><option value='賊首'>賊首</option></select>";
+			}
+			
 			row.appendChild(cell);
 			tbody.appendChild(row);
 		}
@@ -198,6 +205,11 @@
     		data = data+ document.getElementById("character"+i).value+",";
     		data = data+ document.getElementById("identity"+i).value+",";
     		data = data+ document.getElementById("remarks"+i).value+"$";
+    		if(!document.getElementById("player"+i).value || !document.getElementById("character"+i).value || !document.getElementById("identity"+i).value){
+    			alert('資料不全');
+    			send_button.style.display='block';
+    			return 0;
+    		}
     		
     	}
     	

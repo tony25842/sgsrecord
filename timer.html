@@ -70,7 +70,8 @@
 			target = document.getElementById("target").value;
 			time = document.getElementById(target).value;
 			time = time - 0.1;
-			document.getElementById(target).value = Math.round(time * 10) / 10; 
+			time= Math.round(time * 10) / 10; 
+			document.getElementById(target).value = time.toFixed(1);
 		}
 		if(document.getElementById("countDownSec").value <= 0){
 			next();
@@ -113,8 +114,10 @@
 	function setReady(){
 		oprationZone.style.display='block';
 		setUpZone.style.display='none';
-		document.getElementById("countDownSec").value = document.getElementById("countDownSecSet").value;
-		document.getElementById("askSec").value = document.getElementById("askSecSet").value;
+		countDownSecSet = parseFloat(document.getElementById("countDownSecSet").value);
+		askSec = parseFloat(document.getElementById("askSec").value);
+		document.getElementById("countDownSec").value = countDownSecSet.toFixed(1);
+		document.getElementById("askSec").value = askSec.toFixed(1);
 	}
 
 </script>

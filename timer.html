@@ -62,12 +62,15 @@
 </body>
 </html>
 <script type="text/javascript">
+	time = 0;
 	countDown();
 	function countDown(){
-		setTimeout(countDown, 1000);
+		setTimeout(countDown, 100);
 		if (document.getElementById("pausing").value == 0){
 			target = document.getElementById("target").value;
-			document.getElementById(target).value--;
+			time = document.getElementById(target).value;
+			time = time - 0.1;
+			document.getElementById(target).value = Math.round(time * 10) / 10; 
 		}
 		if(document.getElementById("countDownSec").value <= 0){
 			next();

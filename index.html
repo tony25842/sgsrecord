@@ -1,15 +1,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <style type="text/css"> 
-  .blueButtons, .redButtons, .greenButtons, .whiteButtons{
-    font-size: 15px;
+  .blueButtons, .redButtons, .greenButtons, .whiteButtons, .select_button ,.send_button{
+    font-size: 25px;
     margin: 5px;
 }
   </style> 
 </head>
 <html>
-	<body style="width: 100%;"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		人數<select id="total" onchange="changeTotal()">
+	<body style="width: 100%; font-size: 25px;"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<div id="characterField" style="background-color:#CCCCCC; width: 96%; margin: 2%; display:none ;position: fixed;
+    top: 0px;">
+    		<input type="button" class='select_button' value="清除" onclick="choseCharacter('')">
+			<input type="button" class='select_button' value="魏" onclick="showThisCharacterField('blue')">
+			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
+			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
+			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
+			<div id="blueCharacterField" style="padding: 10px;"></div>
+			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
+			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
+			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
+		</div>
+		人數<select id="total" onchange="changeTotal()" style="font-size: 25px;">
 			<option value=''>		</option>
 			<option value='5'>5</option>
 			<option value='6'>6</option>
@@ -17,13 +29,13 @@
 			<option value='8'>8</option>
 
 		</select>
-		勝者<select id="winner">
+		勝者<select id="winner" style="font-size: 25px;">
 			<option value='主公'>主公</option>
 			<option value='反賊'>反賊</option>
 			<option value='內奸'>內奸</option>
 
 		</select>
-		<table  border='1px' id="table" ">
+		<table  border='1px' id="table" style="width: 100%; font-size: 25px;">
 			<tr>
 				<td>位置</td>
 				<td>玩家</td>
@@ -45,18 +57,7 @@
 		<input type="text" style="display:none;" id="whiteList">
 		<br>
 		<input type="text" style="display:none;" id="whoseCharacter">
-		<div id="characterField" style="background-color:#CCCCCC; width: 96%; margin: 2%; display:none ;position: fixed;
-    top: 0px;">
-    		<input type="button" class='select_button' value="清除" onclick="choseCharacter('')">
-			<input type="button" class='select_button' value="魏" onclick="showThisCharacterField('blue')">
-			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
-			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
-			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
-			<div id="blueCharacterField" style="padding: 10px;"></div>
-			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
-			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>
-			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
-		</div>
+		
 	</body>
 </html>
 
@@ -154,22 +155,22 @@
 			cell.innerHTML = j+"<input type='hidden' id='position"+i+"'value="+j+">";
 			row.appendChild(cell);
 			cell = document.createElement("td");
-			cell.innerHTML = "<select id='player"+i+"'>"+document.getElementById('playerList').value+"</select>";
+			cell.innerHTML = "<select id='player"+i+"' style='font-size: 25px;'>"+document.getElementById('playerList').value+"</select>";
 			row.appendChild(cell);
 			cell = document.createElement("td");
-			cell.innerHTML = "<input type='text' id='character"+i+"' class = 'character_text'><input type='button'value='選擇' class='select_button' onclick = 'openCharacterList("+i+")'>";
+			cell.innerHTML = "<input type='text' id='character"+i+"' class = 'character_text' style='font-size: 25px;'><input type='button'value='選擇' class='select_button' onclick = 'openCharacterList("+i+")'>";
 			row.appendChild(cell);
 			cell = document.createElement("td");
 			if(i == 0)
 			{
-				cell.innerHTML = "<select id='identity"+i+"'><option value='主公'>主公</option></select>";
+				cell.innerHTML = "<select id='identity"+i+"' style='font-size: 25px;'><option value='主公'>主公</option></select>";
 			}else
 			{
-				cell.innerHTML = "<select id='identity"+i+"'><option value='反賊'>反賊</option><option value='忠臣'>忠臣</option><option value='內奸'>內奸</option></select>";
+				cell.innerHTML = "<select id='identity"+i+"' style='font-size: 25px;'><option value='反賊'>反賊</option><option value='忠臣'>忠臣</option><option value='內奸'>內奸</option></select>";
 			}
 			row.appendChild(cell);
 			cell = document.createElement("td");
-			cell.innerHTML = "<select id='remarks"+i+"'><option value=''>----</option><option value='大將'>大將</option><option value='軍師'>軍師</option><option value='賊首'>賊首</option></select>";
+			cell.innerHTML = "<select id='remarks"+i+"' style='font-size: 25px;'><option value=''>----</option><option value='大將'>大將</option><option value='軍師'>軍師</option><option value='賊首'>賊首</option></select>";
 			row.appendChild(cell);
 			tbody.appendChild(row);
 		}

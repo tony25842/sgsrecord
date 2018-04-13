@@ -42,6 +42,7 @@
 
 		</select>
 		勝者<select id="winner" style="font-size: 25px;">
+			<option value="">----</option>
 			<option value='主公'>主公</option>
 			<option value='反賊'>反賊</option>
 			<option value='內奸'>內奸</option>
@@ -209,6 +210,11 @@
     	send_button.style.display='none';
     	var total = document.getElementById("total").value;
     	var winner = document.getElementById("winner").value;
+    	if(!winner){
+    		alert('沒有贏家');
+			send_button.style.display='block';
+			return 0;
+    	}
     	var data = "";
     	
     	

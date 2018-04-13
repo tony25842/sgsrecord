@@ -217,7 +217,12 @@
     	}
     	var data = "";
     	
-    	
+    	var num_rebels = 0;
+    	var num_loyalist = 0;
+    	var num_traitor = 0;
+    	var num_adviser = 0;
+    	var num_general = 0;
+    	var num_rebels_head = 0;
     	for (var i = 0; i < total; i++) {
     		var p = document.getElementById("position"+i).value;
     		data = data+ document.getElementById("position"+i).value+",";
@@ -230,7 +235,61 @@
     			send_button.style.display='block';
     			return 0;
     		}
-    		
+    		if(document.getElementById("remarks"+i).value == "賊首" && document.getElementById("identity"+i).value != "反賊"){
+	    		alert('賊首錯誤');
+				send_button.style.display='block';
+				return 0;
+    		}
+    		if(document.getElementById("remarks"+i).value == "軍師" && document.getElementById("identity"+i).value != "忠臣"){
+	    		alert('軍師錯誤');
+				send_button.style.display='block';
+				return 0;
+    		}
+    		if(document.getElementById("remarks"+i).value == "大將" && document.getElementById("identity"+i).value != "忠臣"){
+	    		alert('大將錯誤');
+				send_button.style.display='block';
+				return 0;
+    		}
+    		if(document.getElementById("identity"+i).value == "反賊"){
+    			num_rebels++;
+    		}
+    		if(document.getElementById("identity"+i).value == "內奸"){
+    			num_traitor++;
+    		}
+    		if(document.getElementById("remarks"+i).value == "賊首"){
+    			num_rebels_head++;
+    		}
+    		if(document.getElementById("remarks"+i).value == "軍師"){
+    			num_adviser++;
+    		}
+    		if(document.getElementById("remarks"+i).value == "大將"){
+    			num_general++;
+    		}
+    	}
+    	if (num_rebels*2 > total){
+    		alert('反賊過多');
+			send_button.style.display='block';
+			return 0;
+    	}
+    	if (num_traitor != 1){
+    		alert('內奸人數錯誤');
+			send_button.style.display='block';
+			return 0;
+    	}
+    	if (num_rebels_head > 1){
+    		alert('賊首過多');
+			send_button.style.display='block';
+			return 0;
+    	}
+    	if (num_general > 1){
+    		alert('大將過多');
+			send_button.style.display='block';
+			return 0;
+    	}
+    	if (num_adviser > 1){
+    		alert('軍師過多');
+			send_button.style.display='block';
+			return 0;
     	}
     	
             $.get("https://script.google.com/macros/s/AKfycbzeAbTQh2wGquFTfQqjdJ1WMZ5RTRAf9biX-R-7E5CnKPinE7o/exec", 

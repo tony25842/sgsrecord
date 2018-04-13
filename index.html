@@ -35,11 +35,10 @@
 			<div id="whiteCharacterField" style="padding: 10px; display:none;"></div>
 		</div>
 		人數<select id="total" onchange="changeTotal()" style="font-size: 25px;">
-			<option value=''>		</option>
-			<option value='5'>5</option>
-			<option value='6'>6</option>
-			<option value='7'>7</option>
 			<option value='8'>8</option>
+			<option value='7'>7</option>
+			<option value='6'>6</option>
+			<option value='5'>5</option>
 
 		</select>
 		勝者<select id="winner" style="font-size: 25px;">
@@ -57,7 +56,7 @@
 				<td>大將/軍師</td>
 			</tr>
 		</table>
-		<input type="button" class="send_button" id="send_button" name="enter" value="送出" onclick="Send()">
+		<input type="button" class="send_button" id="send_button" name="enter" value="送出" style="display: none" onclick="Send()">
 		<br>
 		<input type="text" style="display:none;" id="playerList">
 		<br>
@@ -149,7 +148,9 @@
 		    }
 		    
 		    document.getElementById('whiteList').value = whiteButtons;
-            	
+
+		    changeTotal();
+            send_button.style.display='block';
         });
         
     

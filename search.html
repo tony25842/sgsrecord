@@ -2,15 +2,27 @@
 	<title>戰績查詢</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <style type="text/css"> 
-  .blueButtons, .redButtons, .greenButtons, .whiteButtons{
-    font-size: 25px;
-    margin: 10px;
-}
+	.blueButtons, .redButtons, .greenButtons, .whiteButtons, .select_button ,.send_button{
+		font-size: 25px;
+		margin: 5px;
+	}
+	.blueButtons{
+		background-color: #6666FF;
+	}
+	.redButtons{
+		background-color: #FF6666;
+	}
+	.greenButtons{
+		background-color: #66FF66;
+	}
+	.whiteButtons{
+		background-color: #999999;
+	}
   </style> 
 </head>
 <html>
-	<body id="body" style="width: 100%;"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		人數<select id="total" >
+	<body id="body" style="width: 100%; font-size: 25px;"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		人數<select id="total" style="font-size: 25px;" >
 			<option value=''>		</option>
 			<option value='5'>5</option>
 			<option value='6'>6</option>
@@ -19,11 +31,11 @@
 
 		</select>
 
-		玩家<select id="playerList">
+		玩家<select id="playerList" style="font-size: 25px;">
 			
 		</select>
 
-		武將<input type="text" name="" id = "character">
+		武將<input type="text" name="" id = "character" style="font-size: 25px;">
 		<input type="button" class="send_button" name="enter" value="選擇武將" onclick="openCharacterList()">
 		
 
@@ -32,7 +44,7 @@
 		<br>
 		全體
 		<br>
-		<table border='1px'>
+		<table border='1px' style="font-size: 25px;">
 			
 			<tr>
 				<td>總勝率</td>
@@ -56,7 +68,7 @@
 		<br>
 			個人
 		<br>
-		<table border='1px'>
+		<table border='1px'  style="font-size: 25px;">
 			
 			<tr>
 				<td>總勝率</td>
@@ -95,7 +107,7 @@
 		</div>
 		<br>
 
-		<table  border='1px' id="table" ">
+		<table  border='1px' id="table" " style="width: 100%; font-size: 25px;">
 			<tr>
 				<td>位置</td>
 				<td>玩家</td>
@@ -111,10 +123,10 @@
 		</table>
 		<div id="characterField" style="background-color:#CCCCCC; width: 90%; margin: 5%; display:none ;position: fixed;top: 0px;">
 			<input type="button" class='select_button' value="清除" onclick="choseCharacter('')">
-			<input type="button" class='select_button' value="魏" onclick="showThisCharacterField('blue')">
-			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
-			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
-			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
+			<input type="button" class='blueButtons' value="魏" onclick="showThisCharacterField('blue')">
+			<input type="button" class='redButtons' value="蜀" onclick="showThisCharacterField('red')">
+			<input type="button" class='greenButtons' value="吳" onclick="showThisCharacterField('green')">
+			<input type="button" class='whiteButtons' value="群" onclick="showThisCharacterField('white')">
 			
 			<div id="blueCharacterField" style="padding: 10px; "></div>
 			<div id="redCharacterField" style="padding: 10px; display:none;"></div>

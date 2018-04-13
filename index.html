@@ -15,6 +15,9 @@
 	.greenButtons{
 		background-color: #66FF66;
 	}
+	.whiteButtons{
+		background-color: #999999;
+	}
   </style> 
 </head>
 <html>
@@ -22,10 +25,10 @@
 		<div id="characterField" style="background-color:#CCCCCC; width: 96%; margin: 2%; display:none ;position: fixed;
     top: 0px;">
     		<input type="button" class='select_button' value="清除" onclick="choseCharacter('')">
-			<input type="button" class='select_button' value="魏" onclick="showThisCharacterField('blue')">
-			<input type="button" class='select_button' value="蜀" onclick="showThisCharacterField('red')">
-			<input type="button" class='select_button' value="吳" onclick="showThisCharacterField('green')">
-			<input type="button" class='select_button' value="群" onclick="showThisCharacterField('white')">
+			<input type="button" class='blueButtons' value="魏" onclick="showThisCharacterField('blue')">
+			<input type="button" class='redButtons' value="蜀" onclick="showThisCharacterField('red')">
+			<input type="button" class='greenButtons' value="吳" onclick="showThisCharacterField('green')">
+			<input type="button" class='whiteButtons' value="群" onclick="showThisCharacterField('white')">
 			<div id="blueCharacterField" style="padding: 10px;"></div>
 			<div id="redCharacterField" style="padding: 10px; display:none;"></div>
 			<div id="greenCharacterField" style=" padding: 10px; display:none;"></div>

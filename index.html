@@ -199,8 +199,8 @@
 			cell = document.createElement("td");
 			tbody.appendChild(row);
 			cell.innerHTML = "";
-			if(i!=0 && i!=total-1){
-				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveDown("+i+")' value = '下移'>"
+			if(i!=0){
+				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveDown("+i+")' value = '下移'><input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveUp("+i+")' value = '上移'>"
 			}
 			row.appendChild(cell);
 			tbody.appendChild(row);
@@ -388,6 +388,25 @@
 		document.getElementById("character"+target).value = "";
 		document.getElementById("identity"+target).value = "反賊";
 		document.getElementById("remarks"+target).value = "";
+
+	}
+
+		function moveUp(target)
+	{
+		var total = document.getElementById("total").value;
+
+		for (var i = target; i < total; i++) {
+			var j = i-1;
+			document.getElementById("player"+j).value = document.getElementById("player"+i).value
+			document.getElementById("character"+j).value = document.getElementById("character"+i).value
+			document.getElementById("identity"+j).value = document.getElementById("identity"+i).value
+			document.getElementById("remarks"+j).value = document.getElementById("remarks"+i).value
+		}
+		total--;
+		document.getElementById("player"+total).value = "";
+		document.getElementById("character"+total).value = "";
+		document.getElementById("identity"+total).value = "反賊";
+		document.getElementById("remarks"+total).value = "";
 
 	}
 

@@ -55,9 +55,11 @@
 				<td>武將</td>
 				<td>身分</td>
 				<td>大將/軍師</td>
+				<td>下移</td>
 			</tr>
 		</table>
 		<input type="button" class="send_button" id="send_button" name="enter" value="送出" style="display: none" onclick="Send()">
+		<div class="loading" id="loading" style="display: none; font-size: 25px;">讀取中請稍候</div>
 		<br>
 		<input type="text" style="display:none;" id="playerList">
 		<br>
@@ -194,6 +196,13 @@
 			}
 			
 			row.appendChild(cell);
+			cell = document.createElement("td");
+			tbody.appendChild(row);
+			cell.innerHTML = "";
+			if(i!=0 && i!=total-1){
+				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveDown("+i+")' value = '下移'>"
+			}
+			row.appendChild(cell);
 			tbody.appendChild(row);
 		}
 	}
@@ -208,6 +217,7 @@
     function Send()
     {
     	send_button.style.display='none';
+    	loading.style.display='block';
     	var total = document.getElementById("total").value;
     	var winner = document.getElementById("winner").value;
     	if(!winner){
@@ -302,6 +312,7 @@
             	
             	alert(result);
             	send_button.style.display='block';
+    			loading.style.display='none';
             	
             });
            
@@ -350,6 +361,24 @@
 		characterField.style.display='none';
 		var whoseCharacter = document.getElementById("whoseCharacter").value;
 		document.getElementById(whoseCharacter).value = character;
+	}
+
+	function moveDown(target)
+	{
+		var total = document.getElementById("total").value;
+
+		for (var i = total-1; i > target; i--) {
+			var j = i-1;
+			document.getElementById("player"+i).value = document.getElementById("player"+j).value
+			document.getElementById("character"+i).value = document.getElementById("character"+j).value
+			document.getElementById("identity"+i).value = document.getElementById("identity"+j).value
+			document.getElementById("remarks"+i).value = document.getElementById("remarks"+j).value
+		}
+		document.getElementById("player"+target).value = "";
+		document.getElementById("character"+target).value = "";
+		document.getElementById("identity"+target).value = "反賊";
+		document.getElementById("remarks"+target).value = "";
+
 	}
 
 </script>

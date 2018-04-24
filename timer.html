@@ -89,8 +89,14 @@
 		if (document.getElementById("pausing").value == 1){
 			body.style.background='#666666';
 		}else{
-			if(target == "countDownSec" && time > 10){
+			if(target == "countDownSec" && time > 30){
 				body.style.background='#FFFFFF';
+			}
+			if(target == "countDownSec" && time < 30 && time > 20){
+				body.style.background='#FFFF33';
+			}
+			if(target == "countDownSec" && time < 20 && time > 10){
+				body.style.background='#FF6633';
 			}
 			if(target == "countDownSec" && time <= 10){
 				body.style.background='#FF3333';

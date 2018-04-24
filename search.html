@@ -22,6 +22,8 @@
 </head>
 <html>
 	<body id="body" style="width: 100%; font-size: 25px;"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<div id="for_web" >
 		人數<select id="total" style="font-size: 25px;" >
 			<option value=''>		</option>
 			<option value='5'>5</option>
@@ -40,7 +42,7 @@
 		
 
 		<input type="button" class="send_button" name="enter" value="查詢" onclick="Send()">
-
+		</div>
 		<br>
 		全體
 		<br>
@@ -107,7 +109,7 @@
 		</div>
 		<br>
 
-		<table  border='1px' id="table" style=" font-size: 25px;">
+		<table  border='1px' id="table" style="font-size: 25px;">
 			<tr>
 				<td>位置</td>
 				<td>玩家</td>
@@ -169,6 +171,7 @@
 		filter.date_time="";
 		filter.total="";
 		filter.game_id="";
+		filter.for_app="0";
 		if (url.indexOf("?") != -1) 
 		{ 
 			var str = url.substr(1); 
@@ -181,6 +184,10 @@
 		    if(filter.player)
 		    {
 		    	$("#personal").show();
+			}
+		    if(filter.for_app)
+		    {
+		    	$("#for_web").hide();
 			}
 		}  
 		
@@ -542,8 +549,4 @@
         	var newcharacter = document.getElementById("character").value;
 			window.location.href=newurl[0]+'?total='+newtotal+'&player='+newplayer+'&character='+newcharacter;
         }
-
-        
-    
-
 </script>

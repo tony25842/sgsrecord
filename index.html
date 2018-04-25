@@ -199,8 +199,15 @@
 			cell = document.createElement("td");
 			tbody.appendChild(row);
 			cell.innerHTML = "";
-			if(i!=0){
-				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveDown("+i+")' value = '下移'><input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveUp("+i+")' value = '上移'>"
+			if(i!=0 && i!= total-1 && i!=1){
+				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveUp("+i+")' value = '上移'><input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveDown("+i+")' value = '下移'>"
+			}
+			if(i==1)
+			{
+				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveDown("+i+")' value = '下移'>"
+			}if(i==total-1)
+			{
+				cell.innerHTML = "<input type='button' id = 'moveDown"+i+"'style='font-size: 25px;' onclick = 'moveUp("+i+")' value = '上移'>"
 			}
 			row.appendChild(cell);
 			tbody.appendChild(row);
@@ -236,31 +243,45 @@
     	var num_rebels_head = 0;
     	for (var i = 0; i < total; i++) {
     		var p = document.getElementById("position"+i).value;
-    		data = data+ document.getElementById("position"+i).value+",";
-    		data = data+ document.getElementById("player"+i).value+",";
-    		data = data+ document.getElementById("character"+i).value+",";
-    		data = data+ document.getElementById("identity"+i).value+",";
-    		data = data+ document.getElementById("remarks"+i).value+"$";
     		if(!document.getElementById("player"+i).value || !document.getElementById("character"+i).value || !document.getElementById("identity"+i).value){
-    			alert('資料不全');
+    			alert(p+'位資料不全');
     			send_button.style.display='block';
     			loading.style.display='none';
     			return 0;
     		}
+
+    		data = data+ document.getElementById("position"+i).value+",";
+    		if(data.indexOf(document.getElementById("player"+i).value) != -1){
+    			alert('第'+p+'玩家重複');
+				send_button.style.display='block';
+    			loading.style.display='none';
+				return 0;
+    		}
+    		data = data+ document.getElementById("player"+i).value+",";
+    		if(data.indexOf(document.getElementById("character"+i).value) != -1){
+    			alert('第'+p+'武將重複');
+				send_button.style.display='block';
+    			loading.style.display='none';
+				return 0;
+    		}
+    		data = data+ document.getElementById("character"+i).value+",";
+    		data = data+ document.getElementById("identity"+i).value+",";
+    		data = data+ document.getElementById("remarks"+i).value+"$";
+    		
     		if(document.getElementById("remarks"+i).value == "賊首" && document.getElementById("identity"+i).value != "反賊"){
-	    		alert('賊首錯誤');
+	    		alert('第'+p+'位賊首錯誤');
 				send_button.style.display='block';
     			loading.style.display='none';
 				return 0;
     		}
     		if(document.getElementById("remarks"+i).value == "軍師" && document.getElementById("identity"+i).value != "忠臣"){
-	    		alert('軍師錯誤');
+	    		alert('第'+p+'位軍師錯誤');
 				send_button.style.display='block';
     			loading.style.display='none';
 				return 0;
     		}
     		if(document.getElementById("remarks"+i).value == "大將" && document.getElementById("identity"+i).value != "忠臣"){
-	    		alert('大將錯誤');
+	    		alert('第'+p+'位大將錯誤');
 				send_button.style.display='block';
     			loading.style.display='none';
 				return 0;

@@ -23,8 +23,6 @@
 <html>
 	<body id="body" style="width: 100%; font-size: 25px;">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script type="text/javascript" src="jquery.tablesorter\jquery-latest.js"></script> 
-		<script type="text/javascript" src="jquery.tablesorter\jquery.tablesorter.js"></script>
 
 		<div id="for_web" >
 		人數<select id="total" style="font-size: 25px;" >
@@ -260,10 +258,6 @@
 	        			write_row(result[x])
 
 	        		}
-	        		
-	        		$(function() {
-						$("#myTable").tablesorter({widgets: ['zebra']});
-					});
         		}
         		
         		//result[x] = [position, player,character,identify,sub_identify,win_lose,date_time,total,game_id]

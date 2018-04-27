@@ -110,18 +110,18 @@
 		</div>
 		<br>
 
-		<table  border='1px' id="myTable" class="tablesorter" style="font-size: 25px;">
+		<table  border='1px' id="dataTable" class="tablesorter" style="font-size: 25px;">
 			<thead>
 				<tr>
-					<th>位置</th>
-					<th>玩家</th>
-					<th>武將</th>
-					<th>身分</th>
-					<th>大將/軍師</th>
-					<th>勝負</th>
-					<th>日期</th>
-					<th>人數</th>
-					<th>場次</th>
+					<th onclick="sortBy('position')">位置</th>
+					<th onclick="sortBy('player')">玩家</th>
+					<th onclick="sortBy('character')">武將</th>
+					<th onclick="sortBy('identify')">身分</th>
+					<th onclick="sortBy('sub_identify')">大將/軍師</th>
+					<th onclick="sortBy('win_lose')">勝負</th>
+					<th onclick="sortBy('date_time')">日期</th>
+					<th onclick="sortBy('total')">人數</th>
+					<th onclick="sortBy('game_id')">場次</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -163,6 +163,9 @@
    	    var all_num_win_lord = 0,all_num_game_lord = 0,all_num_win_loyalist = 0,all_num_game_loyalist = 0,all_num_win_rebels = 0,all_num_game_rebels = 0,all_num_win_traitor = 0,all_num_game_traitor = 0;
    	    
    	    var url = location.search;
+
+   	    var max = 0;
+
    	    url = encodeURI(url);
 		var filter = new Object(); 
 		filter.position="";
@@ -255,8 +258,8 @@
 	        		result[x].game_id=game_id;
 	        		if (x!=1)
 	        		{
-	        			write_row(result[x])
-
+	        			write_row(result[x],x)
+	        			max = x;
 	        		}
         		}
         		
@@ -345,7 +348,7 @@
 
         });
 
-        function write_row(source)
+        function write_row(source,x)
         {
 
 
@@ -413,37 +416,47 @@
         	{
         		return 0;
         	}
-        	
-        	var table = document.getElementById("myTable");
+        	x--;
+        	var table = document.getElementById("dataTable");
 			var tbody = table.tBodies[0];
        		var row = document.createElement("tr");
 			var cell = document.createElement("td");
+			cell.id = "position"+x;
 			cell.innerHTML = source.position;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "player"+x;
 			cell.innerHTML = source.player;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "character"+x;
 			cell.innerHTML = source.character;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "identify"+x;
 			cell.innerHTML = source.identify;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "sub_identify"+x;
 			cell.innerHTML = source.sub_identify;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "win_lose"+x;
 			cell.innerHTML = source.win_lose;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "date_time"+x;
 			cell.innerHTML = source.date_time;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "total"+x;
 			cell.innerHTML = source.total;
 			row.appendChild(cell);
 			cell = document.createElement("td");
+			cell.id = "game_id"+x;
 			cell.innerHTML = "<a href = '?game_id="+source.game_id+"'>"+source.game_id+"</a>";
 			row.appendChild(cell);
+			row.id = "data"+x;
 			tbody.appendChild(row);
 
 			if(identify == "主公")
@@ -493,7 +506,6 @@
 			document.getElementById("num_game_notraitor").innerHTML=num_game_lord+num_game_loyalist+num_game_rebels;
 			document.getElementById("win_rate_all").innerHTML=Math.round((num_win_lord+num_win_loyalist+num_win_rebels+num_win_traitor)/(num_game_lord+num_game_loyalist+num_game_rebels+num_game_traitor)*10000)/100;
 			document.getElementById("win_rate_notraitor").innerHTML=Math.round((num_win_lord+num_win_loyalist+num_win_rebels)/(num_game_lord+num_game_loyalist+num_game_rebels)*10000)/100;
-			
         }
 
 		function showThisCharacterField(target)
@@ -548,7 +560,47 @@
         	var newcharacter = document.getElementById("character").value;
 			window.location.href=newurl[0]+'?total='+newtotal+'&player='+newplayer+'&character='+newcharacter;
         }
-</script>
-<script type="text/javascript">
-	
+        var sortUp = 0;
+        function sortBy(value){
+			i = 1;
+			var datas = [];
+			j = 0;
+			var filter = new Object(); 
+			while(i < max){
+				if(document.getElementById(value+i)){
+					datas[j] = new Object();
+					datas[j].html = document.getElementById('data'+i).innerHTML;
+					datas[j].number = i;
+					datas[j].value = document.getElementById(value+i).innerHTML;			
+					j++;
+				}
+				i++;
+			}
+			if(sortUp == 0){
+				datas = datas.sort(function (a, b) {
+				 	return a.value < b.value ? 1 : -1;
+				});
+				var table = document.getElementById("dataTable");
+				var tbody = table.tBodies[0];
+				sortUp = 1;
+			}else{
+				datas = datas.sort(function (a, b) {
+				 	return a.value > b.value ? 1 : -1;
+				});
+				var table = document.getElementById("dataTable");
+				var tbody = table.tBodies[0];
+				sortUp = 0;
+			}
+			
+	    	while(table.rows.length>1){
+	    		table.deleteRow(table.rows.length-1);
+	    	}
+			for (var i = 0; i < datas.length; i++) {
+				result[i] =  datas[i].html;
+				var row = document.createElement("tr");
+				row.id ='data'+datas[i].number;
+				row.innerHTML = datas[i].html
+				tbody.appendChild(row);
+			}
+		}
 </script>

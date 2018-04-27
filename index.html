@@ -397,6 +397,10 @@
 	function moveDown(target)
 	{
 		var total = document.getElementById("total").value;
+		var buttom = total-1;
+		if(document.getElementById("player"+buttom).value != '' || document.getElementById("character"+buttom).value != ''){
+			return 0;
+		}
 
 		for (var i = total-1; i > target; i--) {
 			var j = i-1;
@@ -415,6 +419,10 @@
 		function moveUp(target)
 	{
 		var total = document.getElementById("total").value;
+		var top = target-1;
+		if(document.getElementById("player"+top).value != '' || document.getElementById("character"+top).value != ''){
+			return 0;
+		}
 
 		for (var i = target; i < total; i++) {
 			var j = i-1;
